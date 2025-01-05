@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="20dp"
+    android:gravity="center"
+    android:background="#CACACA"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Payment Lock App"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/inputDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IMEI No."
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                >
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/asterick"
+                android:textSize="14sp"
+                android:layout_gravity="center"
+                android:textColor="@color/Red"
+                >
+            </TextView>
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/imeiNo"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="7dp"
+            android:inputType="number"
+            android:maxLength="40"
+            android:paddingStart="12dp"
+            android:minHeight="25dp"
+            android:background="@drawable/edit_text_bg"
+            android:textColor="@color/black"
+            android:hint="IMEI No.">
+        </EditText>
+
+
+        <Button
+            android:id="@+id/addDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Device"
+            android:layout_marginTop="40dp"
+            />
+
+    </LinearLayout>
+
+
+
+<!--    <ScrollView-->
+<!--        android:id="@+id/formView"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="visible"-->
+<!--        >-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            >-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Name"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    >-->
+<!--                </TextView>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/asterick"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/Red"-->
+<!--                    >-->
+<!--                </TextView>-->
+
+<!--            </LinearLayout>-->
+<!--            <EditText-->
+<!--                android:id="@+id/name"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="46dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:inputType="text"-->
+<!--                android:maxLength="40"-->
+<!--                android:paddingStart="12dp"-->
+<!--                android:minHeight="25dp"-->
+<!--                android:background="@drawable/edit_text_bg"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:hint="Name">-->
+<!--            </EditText>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Email"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    >-->
+<!--                </TextView>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/asterick"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/Red"-->
+
+<!--                    >-->
+<!--                </TextView>-->
+
+<!--            </LinearLayout>-->
+<!--            <EditText-->
+<!--                android:id="@+id/emailID"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="46dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:inputType="textEmailAddress"-->
+<!--                android:maxLength="40"-->
+<!--                android:paddingStart="12dp"-->
+<!--                android:minHeight="25dp"-->
+<!--                android:background="@drawable/edit_text_bg"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:hint="Enter Email">-->
+<!--            </EditText>-->
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Phone No"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    >-->
+<!--                </TextView>-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/asterick"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:textColor="@color/Red"-->
+<!--                    >-->
+<!--                </TextView>-->
+
+<!--            </LinearLayout>-->
+<!--            <EditText-->
+<!--                android:id="@+id/phoneNo"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="46dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="7dp"-->
+<!--                android:inputType="phone"-->
+<!--                android:maxLength="40"-->
+<!--                android:paddingStart="12dp"-->
+<!--                android:minHeight="25dp"-->
+<!--                android:background="@drawable/edit_text_bg"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:hint="Phone No">-->
+<!--            </EditText>-->
+
+<!--            -->
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
+
+
+
+
+
+
+</LinearLayout>

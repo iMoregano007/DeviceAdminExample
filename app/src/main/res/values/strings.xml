@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lock Device</string>
+    <string name="use_me_now">Your Payment is confirmed now you can use device.</string>
+    <string name="asterick">*</string>
+</resources>
