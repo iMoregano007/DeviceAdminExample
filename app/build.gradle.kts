@@ -1,7 +1,17 @@
+import com.android.build.api.dsl.Packaging
+import java.util.Properties // Import the Properties class
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(keystorePropertiesFile.inputStream())
+}
+
 
 android {
     namespace = "com.alobha.sample.myapplication"
@@ -18,6 +28,24 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
+            storeFile = keystoreProperties["storeFile"]?.let { file(it.toString()) }
+            storePassword = keystoreProperties["storePassword"] as String?
+        }
+    }
+
+//    signingConfigs {
+//        release {
+//            storeFile file("path/to/your-keystore.jks")  // Specify the path to your keystore
+//            storePassword "your-keystore-password"       // Your keystore password
+//            keyAlias "your-key-alias"                    // Your key alias
+//            keyPassword "your-key-password"              // Your key password
+//        }
+//    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -25,8 +53,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
+
+    packaging {
+        resources.excludes += "resources.arsc"
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

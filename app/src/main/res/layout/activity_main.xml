@@ -81,6 +81,38 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/removeDeviceOwner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove Device Owner"
+        android:layout_marginTop="20dp"
+        />
+
+    <Button
+        android:id="@+id/factoryResetButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Factory Reset"
+        android:layout_marginTop="20dp"
+        />
+
+    <Button
+        android:id="@+id/addRestrictionsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Restriction"
+        android:layout_marginTop="20dp"
+        />
+    <Button
+        android:id="@+id/removeRestrictions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove Restriction"
+        android:layout_marginTop="20dp"
+        />
+
+
 
 
 <!--    <ScrollView-->

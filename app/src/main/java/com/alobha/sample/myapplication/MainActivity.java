@@ -39,6 +39,7 @@ import com.alobha.sample.myapplication.model.DeviceCreatedResponse;
 import com.alobha.sample.myapplication.model.GetStatusData;
 import com.alobha.sample.myapplication.utils.Actions;
 import com.alobha.sample.myapplication.utils.BatteryOptimizationHelper;
+import com.alobha.sample.myapplication.utils.FactoryResetManager;
 import com.alobha.sample.myapplication.utils.ServiceState;
 
 import java.util.concurrent.TimeUnit;
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
     ApiService apiService;
     boolean deviceRegistered;
     boolean lockDevice;
+    Button factoryResetBtn;
+    Button removeDeviceOwner;
+    Button addRestrictionBtn;
+    Button removeRestrictionBtn;
 
     LinearLayout inputView;
 
@@ -91,9 +96,12 @@ public class MainActivity extends AppCompatActivity {
 //        email = findViewById(R.id.emailID);
 //        phoneNo = findViewById(R.id.phoneNo);
         imeiNo = findViewById(R.id.imeiNo);
-
+        factoryResetBtn = findViewById(R.id.factoryResetButton);
         addDevice = findViewById(R.id.addDevice);
         inputView = findViewById(R.id.inputDetails);
+        addRestrictionBtn = findViewById(R.id.addRestrictionsBtn);
+        removeRestrictionBtn = findViewById(R.id.removeRestrictions);
+        removeDeviceOwner = findViewById(R.id.removeDeviceOwner);
 //        checkReadPhoneStatePermission();
         apiService = RetrofitInstance.getApiService();
         deviceID = DeviceUtil.getAndroidId(MainActivity.this);
@@ -132,7 +140,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        factoryResetBtn.setOnClickListener(v -> {
+//            dpm.clearDeviceOwnerApp(getPackageName());
+            FactoryResetManager factoryResetManager = new FactoryResetManager(MainActivity.this,adminComponent);
+            factoryResetManager.initiateFactoryReset();
+        });
 
+        removeDeviceOwner.setOnClickListener(v -> {
+            dpm.clearDeviceOwnerApp(getPackageName());
+
+//            FactoryResetManager factoryResetManager = new FactoryResetManager(MainActivity.this,adminComponent);
+//            factoryResetManager.initiateFactoryReset();
+        });
+
+        addRestrictionBtn.setOnClickListener(v ->{
+            addRestrictions();
+        });
+
+        removeRestrictionBtn.setOnClickListener(v->{
+            removeRestrictions();
+        });
 
 //        getUnrestrictedUsagePermission();
 
@@ -140,11 +167,13 @@ public class MainActivity extends AppCompatActivity {
 //        For Testing Purpose
 
         if(!imeiNoV.isEmpty()){
-            inputView.setVisibility(View.GONE);
+//            inputView.setVisibility(View.GONE);
+            showInputView(false);
             getPaymentStatus(imeiNoV);
             actionOnService(Actions.START);
         } else {
-            inputView.setVisibility(View.VISIBLE);
+//            inputView.setVisibility(View.VISIBLE);
+            showInputView(true);
         }
 
 
@@ -173,6 +202,22 @@ public class MainActivity extends AppCompatActivity {
 //            // Check for notification permissions
 //            checkNotificationPermission();
 //        }
+    }
+
+    void showInputView(boolean visible){
+        if(visible){
+            inputView.setVisibility(View.VISIBLE);
+            factoryResetBtn.setVisibility(View.GONE);
+            removeDeviceOwner.setVisibility(View.GONE);
+            removeRestrictionBtn.setVisibility(View.GONE);
+            addRestrictionBtn.setVisibility(View.GONE);
+        } else {
+            inputView.setVisibility(View.GONE);
+            factoryResetBtn.setVisibility(View.VISIBLE);
+            removeDeviceOwner.setVisibility(View.VISIBLE);
+            removeRestrictionBtn.setVisibility(View.VISIBLE);
+            addRestrictionBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     void getPaymentStatus(String imeiNoV){
@@ -212,7 +257,8 @@ public class MainActivity extends AppCompatActivity {
 
     void moveForward(){
         if(!imeiNoV.isEmpty()){
-            inputView.setVisibility(View.GONE);
+//            inputView.setVisibility(View.GONE);
+            showInputView(false);
             Log.d("ImeiValue","IMEI NO >> "+ imeiNoV);
 
             checkDpm();
@@ -223,7 +269,8 @@ public class MainActivity extends AppCompatActivity {
 //            }
 
         } else {
-            inputView.setVisibility(View.VISIBLE);
+//            inputView.setVisibility(View.VISIBLE);
+            showInputView(true);
         }
     }
 
@@ -300,13 +347,108 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    void addRestrictions(){
+        if (dpm.isDeviceOwnerApp(getPackageName())) {
+            // Perform device management actions here
+            Toast.makeText(this, "App is Device Owner", Toast.LENGTH_SHORT).show();
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_FACTORY_RESET);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_SAFE_BOOT);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_INSTALL_APPS);
+
+            try{
+                dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_OUTGOING_CALLS);
+//                dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_CAMERA_TOGGLE);
+                dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_UNINSTALL_APPS);
+                dpm.setCameraDisabled(adminComponent,true);
+//                dpm.setLockTaskPackages(adminComponent, new String[]{getPackageName()});
+//                enableKioskMode();
+                disableChrome();
+            } catch(Exception e){
+                Log.d("Restrictions", "addRestrictions: exc"+e.getMessage());
+            }
+
+
+//            checkNotificationPermission();
+//            enableKioskMode(); // Example function to enable Kiosk Mode
+        }
+    }
+
+    void enableKioskMode(){
+        try{
+            startLockTask();
+        } catch (Exception e){
+            Log.d("Restrictions", "enableKioskMode: exc >>"+e.getMessage());
+        }
+//        startLockTask();
+    }
+
+    void disableKioskMode(){
+        try{
+            stopLockTask();
+        } catch (Exception e){
+            Log.d("Restrictions", "disableKioskMode: exc >>"+e.getMessage());
+        }
+//        startLockTask();
+    }
+
+
+    void removeRestrictions(){
+        if (dpm.isDeviceOwnerApp(getPackageName())) {
+            // Perform device management actions here
+            Toast.makeText(this, "App is Device Owner", Toast.LENGTH_SHORT).show();
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_FACTORY_RESET);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_SAFE_BOOT);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_INSTALL_APPS);
+            try{
+                dpm.clearUserRestriction(adminComponent, UserManager.DISALLOW_OUTGOING_CALLS);
+//                dpm.clearUserRestriction(adminComponent, UserManager.DISALLOW_CAMERA_TOGGLE);
+                dpm.clearUserRestriction(adminComponent, UserManager.DISALLOW_UNINSTALL_APPS);
+                dpm.setCameraDisabled(adminComponent,false);
+//                disableKioskMode();
+                enableChrome();
+
+//                dpm.cle
+//                dpm.clearLockTaskPackages(adminComponentName);
+
+            }catch (Exception e){
+                Log.d("Restrictions", "removeRestrictions: exc>>"+e.getMessage());
+            }
+
+
+//            checkNotificationPermission();
+//            enableKioskMode(); // Example function to enable Kiosk Mode
+        }
+    }
+
+    public void disableChrome() {
+        try {
+            dpm.setApplicationHidden(adminComponent, "com.android.chrome", true);
+            Toast.makeText(this, "Chrome disabled!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // Enable Chrome
+    public void enableChrome() {
+        try {
+            dpm.setApplicationHidden(adminComponent, "com.android.chrome", false);
+            Toast.makeText(this, "Chrome enabled!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
     void checkDeviceOwner(){
         if (dpm.isDeviceOwnerApp(getPackageName())) {
             // Perform device management actions here
             Toast.makeText(this, "App is Device Owner", Toast.LENGTH_SHORT).show();
             dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_FACTORY_RESET);
             dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_SAFE_BOOT);
-//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_ADB);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_INSTALL_APPS);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_OUTGOING_CALLS);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_CAMERA_TOGGLE);
+//            dpm.addUserRestriction(adminComponent, UserManager.DISALLOW_UNINSTALL_APPS);
 
             checkNotificationPermission();
 //            enableKioskMode(); // Example function to enable Kiosk Mode
